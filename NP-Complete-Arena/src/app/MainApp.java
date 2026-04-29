@@ -219,7 +219,7 @@ public class MainApp extends Application {
                 view.setColoringInteractionEnabled(true);
             }
             enableAllButtons.run();
-        };
+        }; 
 
         pauseBtn.setOnAction(e -> {
             if (!running)
@@ -1232,3 +1232,4 @@ public class MainApp extends Application {
         launch(args);
     }
 }
+//hi
