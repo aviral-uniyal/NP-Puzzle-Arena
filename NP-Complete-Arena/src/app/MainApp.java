@@ -42,7 +42,6 @@ public class MainApp extends Application {
     private volatile boolean isPaused = false;
     private volatile boolean isStopped = false;
 
-    // thrown from checkPauseOrStop() to unwind the algorithm thread
     private static class StopVisualization extends RuntimeException {
     }
 
@@ -103,7 +102,6 @@ public class MainApp extends Application {
                 FXCollections.observableArrayList("Graph Coloring", "Hamiltonian Cycle"));
         problemBox.setValue("Graph Coloring");
 
-        // Style the dropdown list cells and the selected-value cell so text is visible
         problemBox.setCellFactory(lv -> {
             ListCell<String> cell = new ListCell<>() {
                 @Override
@@ -191,7 +189,6 @@ public class MainApp extends Application {
             hamiltonianDpBtn.setDisable(false);
             validateBtn.setDisable(false);
             resetBtn.setDisable(false);
-            // Re-enable manual node coloring when algorithm finishes
             if ("Graph Coloring".equals(problemBox.getValue())) {
                 view.setColoringInteractionEnabled(true);
             }
@@ -214,7 +211,6 @@ public class MainApp extends Application {
             isPaused = false;
             isStopped = false;
             running = false;
-            // Re-enable manual node coloring on stop
             if ("Graph Coloring".equals(problemBox.getValue())) {
                 view.setColoringInteractionEnabled(true);
             }
@@ -269,7 +265,6 @@ public class MainApp extends Application {
             view.clearAlert();
             view.resetVisualizationHighlights();
             clearGraphFeedback();
-            // Disable manual node coloring while greedy runs
             view.setColoringInteractionEnabled(false);
 
             long startTime = System.nanoTime();
@@ -336,7 +331,6 @@ public class MainApp extends Application {
             view.clearAlert();
             view.resetVisualizationHighlights();
             clearGraphFeedback();
-            // Disable manual node coloring while backtracking runs
             view.setColoringInteractionEnabled(false);
 
             int m = 3;
@@ -437,7 +431,6 @@ public class MainApp extends Application {
                             statusLabel.setText("No Hamiltonian Cycle Found");
                             clearGraphFeedback();
                         } else {
-                            // Cycle found — keep step-by-step visualization as final state
                             algorithmResultShown[0] = true;
                             lblCurrentPath.setText(cycle.toString());
                             int current = cycle.size() > 1 ? cycle.get(cycle.size() - 2) : cycle.get(0);
@@ -517,9 +510,7 @@ public class MainApp extends Application {
                             statusLabel.setText("No Hamiltonian Cycle Found");
                             clearGraphFeedback();
                         } else {
-                            // Don't reset — the solver already set up permanent cycle display
                             algorithmResultShown[0] = true;
-                            // Build cycle string: "0 → 1 → 2 → ... → 0"
                             StringBuilder sb = new StringBuilder();
                             for (int i = 0; i < cycle.size(); i++) {
                                 if (i > 0) sb.append(" \u2192 ");
@@ -604,7 +595,6 @@ public class MainApp extends Application {
             isPaused = false;
             isStopped = false;
             pauseBtn.setText("⏸  Pause");
-            // Re-enable manual node coloring on reset
             if ("Graph Coloring".equals(problemBox.getValue())) {
                 view.setColoringInteractionEnabled(true);
             }
@@ -903,14 +893,12 @@ public class MainApp extends Application {
             lblAction.setFont(Font.font("Monospaced", FontWeight.BOLD, 12));
             return;
         }
-        // Green: success states
         if (upper.contains("COMPLETED") || upper.contains("HAMILTONIAN CYCLE FOUND")
                 || upper.contains("STATE ACCEPTED") || upper.contains("CYCLE CLOSES")) {
             lblAction.setTextFill(Color.web("#4dff88"));
             lblAction.setFont(Font.font("Monospaced", FontWeight.BOLD, 12));
             return;
         }
-        // Blue: informational
         if (upper.contains("BACKTRACKING") || upper.contains("BACKTRACK")
                 || upper.contains("MEMOIZED") || upper.contains("TRYING NODE")) {
             lblAction.setTextFill(Color.web("#4da6ff"));
@@ -1007,7 +995,6 @@ public class MainApp extends Application {
             }
 
             public void checkPauseOrStop() {
-                // block while paused; throw to stop
                 while (isPaused && !isStopped) {
                     try {
                         Thread.sleep(50);
@@ -1051,7 +1038,6 @@ public class MainApp extends Application {
             }
 
             public void onEdgeHighlight(int u, int v, String type) {
-                // Handle CLEAR_ALL to reset all edges (used before final cycle display)
                 if ("CLEAR_ALL".equals(type)) {
                     Platform.runLater(() -> view.resetVisualizationHighlights());
                     return;
@@ -1087,7 +1073,6 @@ public class MainApp extends Application {
 
             public void onCycleFound(List<Integer> cycle) {
                 if (!backtrackingMode) {
-                    // DP mode: show final cycle with permanent BLUE nodes + GREEN arrows
                     List<Integer> mapped = toVertexPath(vertices, cycle);
                     Platform.runLater(() -> {
                         view.clearPathNodes();
@@ -1102,7 +1087,6 @@ public class MainApp extends Application {
                         clearGraphFeedback();
                     } else {
                         String upper = message.toUpperCase();
-                        // DP-specific messages (above graph only shows results, NOT "TRYING")
                         if (upper.contains("STATE ACCEPTED"))
                             showGraphFeedback("STATE ACCEPTED", "STATE_ACCEPTED");
                         else if (upper.contains("ALREADY IN SET"))
@@ -1232,4 +1216,4 @@ public class MainApp extends Application {
         launch(args);
     }
 }
-//hi
+
