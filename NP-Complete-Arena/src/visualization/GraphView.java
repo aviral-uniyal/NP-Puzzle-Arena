@@ -33,24 +33,19 @@ public class GraphView extends Pane {
     private Set<String> manualEdges = new HashSet<>();
     private Consumer<Integer> nodeClickHandler;
 
-    // step-by-step coloring visualization state
     private int highlightedNode = -1;
     private Map<String, String> edgeColors = new HashMap<>();
-    // step-by-step direction arrows (for Hamiltonian DFS path edges)
     private List<int[]> stepDirections = new ArrayList<>();
 
-    // backtracking path visualization state
     private Set<Integer> pathNodes = new HashSet<>();
-    // temporary node color overrides (for DP GREEN/RED flashes)
     private Map<Integer, String> tempNodeColors = new HashMap<>();
     private static final double PATH_RADIUS_BOOST = 3.0;
 
-    // alert overlay (conflict / completed)
     private String alertText = null;
-    private String alertColor = "red"; // "red" or "green"
+    private String alertColor = "red"; 
 
     private static final Color[] COLOR_MAP = {
-        Color.web("#bdbdbd"),  // 0 = uncolored (light grey)
+        Color.web("#bdbdbd"),  // 0 = uncolored 
         Color.web("#ff4d4d"),  // 1 = red
         Color.web("#4dff88"),  // 2 = green
         Color.web("#4da6ff"),  // 3 = blue
@@ -85,23 +80,19 @@ public class GraphView extends Pane {
         }
     }
 
-    /** Compute the effective radius for a given vertex ID. */
     private double effectiveRadius(int vertexId) {
         double base = 22;
-        // Current node: NO size change. Only assigned/path nodes grow.
         if (pathNodes.contains(vertexId)) base += PATH_RADIUS_BOOST;
         return base;
     }
 
     private void draw() {
-        // draw edges first — endpoints adjusted to node boundaries
         for (int u : graph.getVertices()) {
             for (int v : graph.getNeighbors(u)) {
                 if (u < v) {
                     double[] pu = positions.get(u);
                     double[] pv = positions.get(v);
 
-                    // Shorten line so it stops at node boundary
                     double dx = pv[0] - pu[0];
                     double dy = pv[1] - pu[1];
                     double len = Math.sqrt(dx * dx + dy * dy);
@@ -143,12 +134,9 @@ public class GraphView extends Pane {
             }
         }
 
-        // draw direction arrows for Hamiltonian solution
         for (int[] dir : highlightedDirections) drawArrow(dir[0], dir[1]);
-        // draw step-by-step DFS path arrows
         for (int[] dir : stepDirections) drawArrow(dir[0], dir[1]);
 
-        // alert overlay (conflict / completed)
         if (alertText != null) {
             javafx.scene.control.Label alert = new javafx.scene.control.Label(alertText);
             alert.setFont(Font.font(null, FontWeight.BOLD, 14));
@@ -183,17 +171,14 @@ public class GraphView extends Pane {
             boolean isPathNode    = pathNodes.contains(id);
             double radius = effectiveRadius(id);
 
-            // If node is in path (DFS recursion stack / DP mask), override fill to blue
             if (isPathNode) {
                 fill = Color.web("#4da6ff");
             }
 
-            // Temporary node color override: border only (fill stays unchanged)
             String tempCol = tempNodeColors.get(id);
 
             Circle circle = new Circle(pos[0], pos[1], radius, fill);
 
-            // Border priority: temp GREEN/RED border > orange (current) > default
             if ("GREEN".equals(tempCol)) {
                 circle.setStroke(Color.web("#00ff99"));
                 circle.setStrokeWidth(4.0);
@@ -232,7 +217,6 @@ public class GraphView extends Pane {
         }
     }
 
-    // --- alert overlay API ---
 
     public void showAlert(String text, String color) {
         this.alertText = text;
@@ -245,7 +229,6 @@ public class GraphView extends Pane {
         redraw();
     }
 
-    // --- visualization highlight API ---
 
     public void setHighlightedNode(int nodeId) {
         this.highlightedNode = nodeId;
@@ -257,12 +240,10 @@ public class GraphView extends Pane {
         redraw();
     }
 
-    /** Set edge color AND track direction arrow for GREEN path edges. */
     public void setEdgeHighlightDirected(int from, int to, String type) {
         String key = edgeKey(from, to);
         String current = edgeColors.getOrDefault(key, "DEFAULT");
 
-        // Safety: never overwrite a GREEN path edge with ORANGE or RED
         if ("GREEN".equals(current) && ("ORANGE".equals(type) || "RED".equals(type))) {
             return;
         }
@@ -271,20 +252,17 @@ public class GraphView extends Pane {
         if ("GREEN".equals(type)) {
             stepDirections.add(new int[]{ from, to });
         } else {
-            // Remove arrow when edge is reset (backtracking only)
             stepDirections.removeIf(d -> edgeKey(d[0], d[1]).equals(key));
         }
         redraw();
     }
 
-    /** Set the current recursion path nodes (blue border + bigger size). */
     public void setPathNodes(List<Integer> nodeIds) {
         pathNodes.clear();
         if (nodeIds != null) pathNodes.addAll(nodeIds);
         redraw();
     }
 
-    /** Clear all path node highlights. */
     public void clearPathNodes() {
         pathNodes.clear();
         redraw();
@@ -299,25 +277,21 @@ public class GraphView extends Pane {
         redraw();
     }
 
-    /** Set a temporary fill color override on a node (GREEN or RED). */
     public void setNodeTempColor(int nodeId, String color) {
         tempNodeColors.put(nodeId, color);
         redraw();
     }
 
-    /** Clear temporary fill color override on a node. */
     public void clearNodeTempColor(int nodeId) {
         tempNodeColors.remove(nodeId);
         redraw();
     }
 
-    /** Clear all temporary node color overrides. */
     public void clearAllNodeTempColors() {
         tempNodeColors.clear();
         redraw();
     }
 
-    // --- standard API ---
 
     public void setColors(int[] newColors) {
         this.colors = newColors;
