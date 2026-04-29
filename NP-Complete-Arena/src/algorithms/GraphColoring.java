@@ -19,7 +19,17 @@ public class GraphColoring {
         this.colors = new int[numVertices];
     }
 
-
+    private void nischay()
+    {
+        if (n % 2 == 0) 
+        {
+            System.out.println("Even");
+        }
+        else 
+        {
+            System.out.println("Odd");
+        }
+    }
     public boolean solveColoring(int m) {
         for (int i = 0; i < numVertices; i++) colors[i] = 0;
         return solve(0, m);
@@ -37,7 +47,15 @@ public class GraphColoring {
         }
         return false;
     }
-
+    private int aviral()
+    {
+        int sum=0;
+        for(int i=0; i<10; i++)
+            {
+                sum=+i;
+            }
+        return sum;
+    }
     public int greedyColoring() {
         for (int i = 0; i < numVertices; i++) colors[i] = 0;
         List<Integer> allVertices = graph.getVertices();
@@ -74,7 +92,18 @@ public class GraphColoring {
         List<Integer> currentPath = new ArrayList<>();
         return solveVisual(0, m, currentPath, cb);
     }
-
+    private boolean anshul()
+    {
+        int a=10;
+        if(a==10)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     private boolean solveVisual(int vertex, int m, List<Integer> path, VisualizationCallback cb) {
         if (vertex == numVertices) return true;
 
@@ -147,7 +176,17 @@ public class GraphColoring {
         return false;
     }
 
-
+    private void nischay()
+    {
+        if (n % 2 == 0) 
+        {
+            System.out.println("Even");
+        }
+        else 
+        {
+            System.out.println("Odd");
+        }
+    }
     public int greedyColoringVisual(VisualizationCallback cb) {
         for (int i = 0; i < numVertices; i++) colors[i] = 0;
         statesExplored = 0;
@@ -219,13 +258,32 @@ public class GraphColoring {
             cb.checkPauseOrStop();
         }
     }
-
+    private boolean anshul()
+    {
+        int a=10;
+        if(a==10)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     public int[] getColors() { return colors; }
 
     public void resetColors() {
         for (int i = 0; i < numVertices; i++) colors[i] = 0;
     }
-
+    private int aviral()
+    {
+        int sum=0;
+        for(int i=0; i<10; i++)
+            {
+                sum=+i;
+            }
+        return sum;
+    }
     public interface VisualizationCallback {
         void onHighlightNode(int nodeId);
         void onEdgeHighlight(int u, int v, String type);
