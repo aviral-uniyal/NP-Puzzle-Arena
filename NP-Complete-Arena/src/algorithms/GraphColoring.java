@@ -21,7 +21,7 @@ public class GraphColoring {
 
     private void nischay()
     {
-        if (n % 2 == 0) 
+        if (7 % 2 == 0) 
         {
             System.out.println("Even");
         }
@@ -178,7 +178,7 @@ public class GraphColoring {
 
     private void nischay()
     {
-        if (n % 2 == 0) 
+        if (7 % 2 == 0) 
         {
             System.out.println("Even");
         }
