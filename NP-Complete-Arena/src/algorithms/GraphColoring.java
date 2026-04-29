@@ -19,7 +19,6 @@ public class GraphColoring {
         this.colors = new int[numVertices];
     }
 
-    // --- instant solve ---
 
     public boolean solveColoring(int m) {
         for (int i = 0; i < numVertices; i++) colors[i] = 0;
@@ -67,7 +66,6 @@ public class GraphColoring {
         return true;
     }
 
-    // --- visualization: backtracking ---
 
     public boolean solveColoringVisual(int m, VisualizationCallback cb) {
         for (int i = 0; i < numVertices; i++) colors[i] = 0;
@@ -82,7 +80,6 @@ public class GraphColoring {
 
         int vertexId = graph.getVertices().get(vertex);
 
-        // Highlight current node (orange border)
         cb.onHighlightNode(vertexId);
         cb.onAction("Processing node " + vertexId, vertexId, statesExplored, conflicts);
         sleep(800, cb);
@@ -106,7 +103,6 @@ public class GraphColoring {
                 if (colors[ni] == c) {
                     conflicts++;
                     cb.onEdgeHighlight(vertexId, neighbor, "RED");
-                    // Show conflict — but do NOT show backtracking yet, just try next color
                     cb.onAction("Conflict with node " + neighbor, vertexId, statesExplored, conflicts);
                     cb.onAlert("⚠  CONFLICT", "red");
                     sleep(1100, cb);
@@ -120,7 +116,6 @@ public class GraphColoring {
             }
 
             if (!conflict) {
-                // Valid assignment → remove orange highlight, add dark blue border, add to path
                 cb.onHighlightNode(-1);
                 path.add(vertexId);
                 cb.onPathUpdate(new ArrayList<>(path));
@@ -130,17 +125,13 @@ public class GraphColoring {
                     return true;
                 }
 
-                // Returning from failed subtree: remove this node from path
                 path.remove(path.size() - 1);
                 cb.onPathUpdate(new ArrayList<>(path));
 
-                // Re-highlight as current (orange) to show we're re-processing
                 cb.onHighlightNode(vertexId);
             }
         }
 
-        // ALL colors exhausted → actual backtracking
-        // Show final CONFLICT then BACKTRACKING
         cb.onAlert("⚠  CONFLICT", "red");
         cb.onAction("All colors failed for node " + vertexId, vertexId, statesExplored, conflicts);
         sleep(900, cb);
@@ -156,7 +147,6 @@ public class GraphColoring {
         return false;
     }
 
-    // --- visualization: greedy (no path tracking) ---
 
     public int greedyColoringVisual(VisualizationCallback cb) {
         for (int i = 0; i < numVertices; i++) colors[i] = 0;
@@ -174,7 +164,6 @@ public class GraphColoring {
             for (int c = 1; c <= numVertices; c++) {
                 statesExplored++;
 
-                // Assign first, then validate against neighbors.
                 colors[i] = c;
                 cb.onColorUpdate(colors.clone());
                 cb.onAction("Trying Color " + c, vertexId, statesExplored, conflicts);
@@ -221,7 +210,6 @@ public class GraphColoring {
         return maxColor;
     }
 
-    // sleep in 50ms chunks so pause/stop respond quickly
     private void sleep(long ms, VisualizationCallback cb) {
         long deadline = System.currentTimeMillis() + ms;
         while (System.currentTimeMillis() < deadline) {
@@ -245,7 +233,7 @@ public class GraphColoring {
         void onAction(String action, int currentNode, int states, int conflicts);
         void onComparingWith(int nodeId);
         void onPathUpdate(List<Integer> path);
-        void onAlert(String message, String color); // null = clear
-        void checkPauseOrStop();                    // blocks if paused, throws if stopped
+        void onAlert(String message, String color); 
+        void checkPauseOrStop();                    
     }
 }
