@@ -695,7 +695,15 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
+    private int aviral()
+    {
+        int sum=0;
+        for(int i=0; i<10; i++)
+            {
+                sum=+i;
+            }
+        return sum;
+    }
     private VBox buildStatusPanel() {
         VBox panel = new VBox(10);
         panel.setPadding(new Insets(14, 14, 14, 14));
@@ -743,7 +751,17 @@ public class MainApp extends Application {
                 makeRow(makeRowNameLabel("Time Complexity"), lblTimeComplexity));
         return panel;
     }
-
+    private void nischay()
+    {
+        if (7 % 2 == 0) 
+        {
+            System.out.println("Even");
+        }
+        else 
+        {
+            System.out.println("Odd");
+        }
+    }
     private VBox makeRow(Label nameLabel, Label valueLabel) {
         nameLabel.setText(nameLabel.getText() + ":");
         nameLabel.setTextFill(Color.web("#aaaaaa"));
@@ -751,7 +769,18 @@ public class MainApp extends Application {
         VBox row = new VBox(2, nameLabel, valueLabel);
         return row;
     }
-
+    private boolean anshul()
+    {
+        int a=10;
+        if(a==10)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     private Label makeRowNameLabel(String name) {
         Label nameLabel = new Label(name);
         nameLabel.setTextFill(Color.web("#aaaaaa"));
@@ -782,7 +811,15 @@ public class MainApp extends Application {
         lblTimeTaken.setText("—");
         lblTimeComplexity.setText("—");
     }
-
+    private int aviral()
+    {
+        int sum=0;
+        for(int i=0; i<10; i++)
+            {
+                sum=+i;
+            }
+        return sum;
+    }
     private void configureStatusPanelForGraphColoring() {
         rowComparingWithName.setText("Comparing With:");
         rowConflictsName.setText("Conflicts:");
@@ -821,7 +858,17 @@ public class MainApp extends Application {
     private void setTimeTaken(String v) {
         lblTimeTaken.setText(v);
     }
-
+    private void nischay()
+    {
+        if (7 % 2 == 0) 
+        {
+            System.out.println("Even");
+        }
+        else 
+        {
+            System.out.println("Odd");
+        }
+    }
     private void setTimeComplexity(String v) {
         lblTimeComplexity.setText(v);
     }
@@ -908,7 +955,18 @@ public class MainApp extends Application {
         lblAction.setTextFill(Color.web("#e0e0e0"));
         lblAction.setFont(Font.font("Monospaced", FontWeight.NORMAL, 12));
     }
-
+    private boolean anshul()
+    {
+        int a=10;
+        if(a==10)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     private void showGraphFeedback(String message, String type) {
         if (lblGraphFeedback == null)
             return;
@@ -941,7 +999,26 @@ public class MainApp extends Application {
         lblGraphFeedback.setText(" ");
         lblGraphFeedback.setTextFill(Color.TRANSPARENT);
     }
-
+    private int aviral()
+    {
+        int sum=0;
+        for(int i=0; i<10; i++)
+            {
+                sum=+i;
+            }
+        return sum;
+    }
+    private void nischay()
+    {
+        if (7 % 2 == 0) 
+        {
+            System.out.println("Even");
+        }
+        else 
+        {
+            System.out.println("Odd");
+        }
+    }
     private GraphColoring.VisualizationCallback makeColoringCallback(GraphView view) {
         return new GraphColoring.VisualizationCallback() {
             public void onHighlightNode(int nodeId) {
@@ -1023,7 +1100,18 @@ public class MainApp extends Application {
         }
         return mapped;
     }
-
+    private boolean anshul()
+    {
+        int a=10;
+        if(a==10)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     private HamiltonianSolver.VisualizationCallback makeHamiltonianCallback(
             GraphView view,
             List<Integer> vertices,
@@ -1080,7 +1168,7 @@ public class MainApp extends Application {
                     });
                 }
             }
-
+            
             public void onAlert(String message, String color) {
                 Platform.runLater(() -> {
                     if (message == null) {
@@ -1138,7 +1226,15 @@ public class MainApp extends Application {
             }
         };
     }
-
+    private int aviral()
+    {
+        int sum=0;
+        for(int i=0; i<10; i++)
+            {
+                sum=+i;
+            }
+        return sum;
+    }
     private String validateColoring(Graph g, int[] colors) {
         List<Integer> verts = g.getVertices();
         for (int i = 0; i < verts.size(); i++)
@@ -1166,7 +1262,17 @@ public class MainApp extends Application {
     private boolean isConnected(Graph g, int u, int v) {
         return g.getNeighbors(u).contains(v);
     }
-
+    private void nischay()
+    {
+        if (7 % 2 == 0) 
+        {
+            System.out.println("Even");
+        }
+        else 
+        {
+            System.out.println("Odd");
+        }
+    }
     private boolean isValidManualHamiltonianCycle(Graph g, List<Integer> path, boolean closed) {
         int n = g.getVertices().size();
         if (!closed || path.size() != n)
@@ -1211,7 +1317,18 @@ public class MainApp extends Application {
             result.add(vertices.get(idx));
         return result;
     }
-
+    private boolean anshul()
+    {
+        int a=10;
+        if(a==10)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     public static void main(String[] args) {
         launch(args);
     }
