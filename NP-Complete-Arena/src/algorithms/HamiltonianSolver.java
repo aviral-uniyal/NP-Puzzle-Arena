@@ -8,7 +8,6 @@ public class HamiltonianSolver {
     public int statesExplored = 0;
     public int backtracks = 0;
 
-    // --- Approach 1: DFS + Backtracking ---
 
     public List<Integer> solveHamiltonianBacktracking(int n, List<List<Integer>> graph) {
         statesExplored = 0;
@@ -16,19 +15,17 @@ public class HamiltonianSolver {
         boolean[] visited = new boolean[n];
         List<Integer> path = new ArrayList<>();
 
-        // start from vertex 0
         visited[0] = true;
         path.add(0);
 
         if (backtrack(n, graph, visited, path)) {
-            path.add(0); // complete the cycle
+            path.add(0); 
             return path;
         }
         return new ArrayList<>();
     }
 
     private boolean backtrack(int n, List<List<Integer>> graph, boolean[] visited, List<Integer> path) {
-        // all vertices visited — check if cycle closes
         if (path.size() == n) {
             statesExplored++;
             int last = path.get(path.size() - 1);
@@ -47,7 +44,6 @@ public class HamiltonianSolver {
                     return true;
                 }
 
-                // backtrack
                 path.remove(path.size() - 1);
                 visited[neighbor] = false;
                 backtracks++;
@@ -56,7 +52,6 @@ public class HamiltonianSolver {
         return false;
     }
 
-    // --- Approach 2: Bitmask DP (Memoization) ---
 
     public List<Integer> solveHamiltonianDP(int n, List<List<Integer>> graph) {
         statesExplored = 0;
@@ -65,25 +60,21 @@ public class HamiltonianSolver {
         Boolean[][] dp = new Boolean[1 << n][n];
         int[][] parent = new int[1 << n][n];
 
-        // initialize parent to -1
         for (int[] row : parent) {
             java.util.Arrays.fill(row, -1);
         }
 
-        // start: visited = {0}, current = 0
         boolean found = dpSolve(0, 1, n, graph, dp, parent, fullMask);
 
         if (!found) {
             return new ArrayList<>();
         }
 
-        // reconstruct path
         return reconstructPath(n, parent, fullMask);
     }
 
     private boolean dpSolve(int current, int mask, int n, List<List<Integer>> graph,
                             Boolean[][] dp, int[][] parent, int fullMask) {
-        // all vertices visited
         if (mask == fullMask) {
             statesExplored++;
             return graph.get(current).contains(0);
@@ -95,7 +86,6 @@ public class HamiltonianSolver {
 
         for (int neighbor : graph.get(current)) {
             statesExplored++;
-            // skip if already visited
             if ((mask & (1 << neighbor)) != 0) continue;
 
             int newMask = mask | (1 << neighbor);
@@ -110,7 +100,6 @@ public class HamiltonianSolver {
         return false;
     }
 
-    // --- Visualization: DFS + Backtracking ---
 
     public List<Integer> solveHamiltonianBacktrackingVisual(int n, List<List<Integer>> graph, VisualizationCallback cb) {
         statesExplored = 0;
@@ -155,7 +144,6 @@ public class HamiltonianSolver {
         cb.onAlert(null, null);
         sleep(800, cb);
 
-        // All vertices visited — check if cycle closes back to 0
         if (path.size() == n) {
             statesExplored++;
             cb.onHighlightNode(0);
@@ -171,7 +159,6 @@ public class HamiltonianSolver {
                 return true;
             }
 
-            // Cannot form cycle — show NO CYCLE above graph
             cb.onHighlightNode(-1);
             cb.onEdgeHighlight(current, 0, "RED");
             cb.onAlert("NO CYCLE", "red");
@@ -186,7 +173,7 @@ public class HamiltonianSolver {
         List<Integer> visitedCandidates = new ArrayList<>();
 
         for (int candidate : graph.get(current)) {
-            if (candidate == parent) continue; // Skip parent edge
+            if (candidate == parent) continue; 
             if (visited[candidate]) {
                 visitedCandidates.add(candidate);
             } else {
@@ -194,7 +181,6 @@ public class HamiltonianSolver {
             }
         }
         
-        // Explore all valid paths first, then visually check visited nodes before giving up
         candidates.addAll(visitedCandidates);
 
         for (int candidate : candidates) {
@@ -202,13 +188,11 @@ public class HamiltonianSolver {
 
             statesExplored++;
 
-            // Step 1: ORANGE border on candidate + edge ORANGE
             cb.onHighlightNode(candidate);
             cb.onEdgeHighlight(current, candidate, "ORANGE");
             cb.onAction("Trying node " + candidate, current, candidate, statesExplored, backtracks);
             sleep(800, cb);
 
-            // Step 2: Already visited → RED edge, reset
             if (visited[candidate]) {
                 cb.onEdgeHighlight(current, candidate, "RED");
                 cb.onAction("Already visited node " + candidate, current, candidate, statesExplored, backtracks);
@@ -218,7 +202,6 @@ public class HamiltonianSolver {
                 continue;
             }
 
-            // Step 3: Valid → node BLUE, edge GREEN with arrow
             visited[candidate] = true;
             path.add(candidate);
             cb.onHighlightNode(-1);
@@ -227,18 +210,15 @@ public class HamiltonianSolver {
             cb.onAction("Added node " + candidate + " to path", candidate, -1, statesExplored, backtracks);
             sleep(800, cb);
 
-            // Step 4: Recurse — current becomes parent of candidate
             if (backtrackVisual(n, graph, visited, path, current, cb)) {
                 return true;
             }
 
-            // Step 5: Backtrack from candidate
             backtracks++;
             cb.onAlert("BACKTRACKING", "blue");
             cb.onAction("Backtracking to node " + current, current, candidate, statesExplored, backtracks);
             sleep(800, cb);
 
-            // Perform backtrack — remove node + edge
             path.remove(path.size() - 1);
             visited[candidate] = false;
             cb.onPathUpdate(new ArrayList<>(path));
@@ -248,7 +228,6 @@ public class HamiltonianSolver {
             cb.onAlert(null, null);
         }
 
-        // All neighbors exhausted — show NO NEIGHBORS LEFT above graph
         cb.onAlert("NO NEIGHBORS", "red");
         cb.onAction("No neighbors left for node " + current, current, -1, statesExplored, backtracks);
         sleep(800, cb);
@@ -257,7 +236,6 @@ public class HamiltonianSolver {
         return false;
     }
 
-    // --- Visualization: Bitmask DP ---
 
     public List<Integer> solveHamiltonianDPVisual(int n, List<List<Integer>> graph, VisualizationCallback cb) {
         statesExplored = 0;
@@ -268,11 +246,9 @@ public class HamiltonianSolver {
         int[][] par = new int[1 << n][n];
         for (int[] row : par) java.util.Arrays.fill(row, -1);
 
-        // Track mask insertion order for display
         List<Integer> maskOrder = new ArrayList<>();
         maskOrder.add(0);
 
-        // Initial state: node 0, mask = {0}
         cb.onHighlightNode(0);
         cb.onPathUpdate(maskToNodeList(1, n));
         cb.onMaskUpdate(orderedMaskString(maskOrder));
@@ -292,17 +268,14 @@ public class HamiltonianSolver {
             return new ArrayList<>();
         }
 
-        // Reconstruct and display final cycle
         List<Integer> cycle = reconstructPath(n, par, fullMask);
 
-        // Clear temporary DP highlights, then show final cycle
         cb.onHighlightNode(-1);
         cb.onNodeTempColor(-1, "CLEAR_ALL");
         cb.onEdgeHighlight(-1, -1, "CLEAR_ALL");
         cb.onCycleFound(cycle);
         cb.onPathUpdate(cycle);
 
-        // Build cycle string: "0 → 1 → 2 → ... → 0"
         StringBuilder cycleStr = new StringBuilder();
         for (int i = 0; i < cycle.size(); i++) {
             if (i > 0) cycleStr.append(" \u2192 ");
@@ -328,7 +301,6 @@ public class HamiltonianSolver {
         cb.onAlert(null, null);
         sleep(700, cb);
 
-        // Check memoized result
         if (dp[mask][current] != null) {
             statesExplored++;
             String result = dp[mask][current] ? "Memoized: \u2713" : "Memoized: \u2717";
@@ -339,18 +311,15 @@ public class HamiltonianSolver {
             return dp[mask][current];
         }
 
-        // Full mask — check if cycle closes back to 0
         if (mask == fullMask) {
             statesExplored++;
 
-            // Trying node 0 (only in Action panel)
             cb.onHighlightNode(0);
             cb.onEdgeHighlight(current, 0, "ORANGE");
             cb.onAction("Trying node 0", current, 0, statesExplored, 0);
             sleep(900, cb);
 
             if (graph.get(current).contains(0)) {
-                // STATE ACCEPTED — edge GREEN, node GREEN
                 cb.onEdgeHighlight(current, 0, "GREEN");
                 cb.onNodeTempColor(0, "GREEN");
                 cb.onAlert("STATE ACCEPTED", "green");
@@ -363,7 +332,6 @@ public class HamiltonianSolver {
                 return true;
             }
 
-            // NO CYCLE — edge RED, node RED
             cb.onEdgeHighlight(current, 0, "RED");
             cb.onNodeTempColor(0, "RED");
             cb.onAlert("NO CYCLE POSSIBLE", "red");
@@ -376,21 +344,17 @@ public class HamiltonianSolver {
             return false;
         }
 
-        // Try all nodes as potential next state
         for (int v = 0; v < n; v++) {
-            // Skip self-check: never try transitioning to self
             if (v == current) continue;
 
             cb.checkPauseOrStop();
             statesExplored++;
 
-            // Step 1: TRYING NODE v — ORANGE edge + ORANGE border (Action panel only)
             cb.onHighlightNode(v);
             cb.onEdgeHighlight(current, v, "ORANGE");
             cb.onAction("Trying node " + v, current, v, statesExplored, 0);
             sleep(900, cb);
 
-            // Case A: Already in mask → RED flash
             if ((mask & (1 << v)) != 0) {
                 cb.onEdgeHighlight(current, v, "RED");
                 cb.onNodeTempColor(v, "RED");
@@ -404,7 +368,6 @@ public class HamiltonianSolver {
                 continue;
             }
 
-            // Case B: No edge → RED flash
             if (!graph.get(current).contains(v)) {
                 cb.onEdgeHighlight(current, v, "RED");
                 cb.onNodeTempColor(v, "RED");
@@ -418,7 +381,6 @@ public class HamiltonianSolver {
                 continue;
             }
 
-            // Case C: Valid transition — GREEN border flash then BLUE
             cb.onEdgeHighlight(current, v, "GREEN");
             cb.onNodeTempColor(v, "GREEN");
             cb.onAlert("STATE ACCEPTED", "green");
@@ -428,7 +390,6 @@ public class HamiltonianSolver {
             cb.onNodeTempColor(v, null);
             cb.onAlert(null, null);
 
-            // Node v now becomes BLUE (added to mask)
             int newMask = mask | (1 << v);
             maskOrder.add(v);
 
@@ -438,7 +399,6 @@ public class HamiltonianSolver {
                 return true;
             }
 
-            // Restore: remove v from maskOrder, restore state display
             maskOrder.remove(maskOrder.size() - 1);
             cb.onHighlightNode(current);
             cb.onPathUpdate(maskToNodeList(mask, n));
@@ -446,7 +406,6 @@ public class HamiltonianSolver {
             sleep(500, cb);
         }
 
-        // All transitions exhausted
         cb.onAlert("NO TRANSITIONS POSSIBLE", "orange");
         cb.onAction("NO TRANSITIONS POSSIBLE", current, -1, statesExplored, 0);
         sleep(1000, cb);
@@ -456,9 +415,7 @@ public class HamiltonianSolver {
         return false;
     }
 
-    // --- Helpers ---
 
-    /** Format mask as insertion-order set string, e.g. {0, 3, 1, 2} */
     private String orderedMaskString(List<Integer> maskOrder) {
         StringBuilder sb = new StringBuilder("{");
         for (int i = 0; i < maskOrder.size(); i++) {
@@ -500,7 +457,6 @@ public class HamiltonianSolver {
         return sb.toString();
     }
 
-    // same delay pattern used by graph coloring visualization
     private void sleep(long ms, VisualizationCallback cb) {
         long deadline = System.currentTimeMillis() + ms;
         while (System.currentTimeMillis() < deadline) {
@@ -526,7 +482,7 @@ public class HamiltonianSolver {
     private List<Integer> reconstructPath(int n, int[][] par, int fullMask) {
         List<Integer> path = new ArrayList<>();
         int current = 0;
-        int mask = 1; // only vertex 0 visited
+        int mask = 1; 
 
         path.add(0);
 
@@ -537,7 +493,7 @@ public class HamiltonianSolver {
             current = next;
         }
 
-        path.add(0); // complete the cycle
+        path.add(0); 
         return path;
     }
 }
