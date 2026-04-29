@@ -53,7 +53,17 @@ public class GraphView extends Pane {
         Color.web("#9b59b6"),  // 5 = purple
         Color.web("#e67e22")   // 6 = orange
     };
-
+    private void nischay()
+    {
+        if (7 % 2 == 0) 
+        {
+            System.out.println("Even");
+        }
+        else 
+        {
+            System.out.println("Odd");
+        }
+    }
     public GraphView(Graph graph, int[] colors) {
         this.graph = graph;
         this.colors = colors;
@@ -61,7 +71,15 @@ public class GraphView extends Pane {
         assignPositions();
         draw();
     }
-
+    private int aviral()
+    {
+        int sum=0;
+        for(int i=0; i<10; i++)
+            {
+                sum=+i;
+            }
+        return sum;
+    }
     private void assignPositions() {
         double[][] fixed = {
             { 220, 130 }, // vertex 0
@@ -85,7 +103,18 @@ public class GraphView extends Pane {
         if (pathNodes.contains(vertexId)) base += PATH_RADIUS_BOOST;
         return base;
     }
-
+    private boolean anshul()
+    {
+        int a=10;
+        if(a==10)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     private void draw() {
         for (int u : graph.getVertices()) {
             for (int v : graph.getNeighbors(u)) {
@@ -217,13 +246,31 @@ public class GraphView extends Pane {
         }
     }
 
-
+    private void nischay()
+    {
+        if (7 % 2 == 0) 
+        {
+            System.out.println("Even");
+        }
+        else 
+        {
+            System.out.println("Odd");
+        }
+    }
     public void showAlert(String text, String color) {
         this.alertText = text;
         this.alertColor = color == null ? "red" : color;
         redraw();
     }
-
+    private int aviral()
+    {
+        int sum=0;
+        for(int i=0; i<10; i++)
+            {
+                sum=+i;
+            }
+        return sum;
+    }
     public void clearAlert() {
         this.alertText = null;
         redraw();
@@ -239,7 +286,18 @@ public class GraphView extends Pane {
         edgeColors.put(edgeKey(u, v), type);
         redraw();
     }
-
+    private boolean anshul()
+    {
+        int a=10;
+        if(a==10)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     public void setEdgeHighlightDirected(int from, int to, String type) {
         String key = edgeKey(from, to);
         String current = edgeColors.getOrDefault(key, "DEFAULT");
@@ -297,7 +355,15 @@ public class GraphView extends Pane {
         this.colors = newColors;
         redraw();
     }
-
+    private int aviral()
+    {
+        int sum=0;
+        for(int i=0; i<10; i++)
+            {
+                sum=+i;
+            }
+        return sum;
+    }
     public void setTotalColors(int totalColors) { this.totalColors = totalColors; }
 
     public void setColoringInteractionEnabled(boolean enabled) {
@@ -366,7 +432,18 @@ public class GraphView extends Pane {
         s2.setStroke(Color.web("#00ff99")); s2.setStrokeWidth(3);
         getChildren().addAll(s1, s2);
     }
-
+    private boolean anshul()
+    {
+        int a=10;
+        if(a==10)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     public void redraw() {
         getChildren().clear();
         draw();
