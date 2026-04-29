@@ -8,7 +8,15 @@ public class HamiltonianSolver {
     public int statesExplored = 0;
     public int backtracks = 0;
 
-
+    private int aviral()
+    {
+        int sum=0;
+        for(int i=0; i<10; i++)
+            {
+                sum=+i;
+            }
+        return sum;
+    }
     public List<Integer> solveHamiltonianBacktracking(int n, List<List<Integer>> graph) {
         statesExplored = 0;
         backtracks = 0;
@@ -24,7 +32,18 @@ public class HamiltonianSolver {
         }
         return new ArrayList<>();
     }
-
+    private boolean anshul()
+    {
+        int a=10;
+        if(a==10)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     private boolean backtrack(int n, List<List<Integer>> graph, boolean[] visited, List<Integer> path) {
         if (path.size() == n) {
             statesExplored++;
@@ -133,7 +152,17 @@ public class HamiltonianSolver {
         cb.onHighlightNode(-1);
         return new ArrayList<>();
     }
-
+    private void nischay()
+    {
+        if (n % 2 == 0) 
+        {
+            System.out.println("Even");
+        }
+        else 
+        {
+            System.out.println("Odd");
+        }
+    }
     private boolean backtrackVisual(int n, List<List<Integer>> graph, boolean[] visited,
                                     List<Integer> path, int parent,
                                     VisualizationCallback cb) {
@@ -236,7 +265,27 @@ public class HamiltonianSolver {
         return false;
     }
 
-
+    private int aviral()
+    {
+        int sum=0;
+        for(int i=0; i<10; i++)
+            {
+                sum=+i;
+            }
+        return sum;
+    }
+    private boolean anshul()
+    {
+        int a=10;
+        if(a==10)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     public List<Integer> solveHamiltonianDPVisual(int n, List<List<Integer>> graph, VisualizationCallback cb) {
         statesExplored = 0;
         backtracks = 0;
@@ -288,7 +337,17 @@ public class HamiltonianSolver {
         sleep(1100, cb);
         return cycle;
     }
-
+     private void nischay()
+    {
+        if (n % 2 == 0) 
+        {
+            System.out.println("Even");
+        }
+        else 
+        {
+            System.out.println("Odd");
+        }
+    }
     private boolean dpSolveVisual(int current, int mask, int n, List<List<Integer>> graph,
                                   Boolean[][] dp, int[][] par, int fullMask,
                                   List<Integer> maskOrder, VisualizationCallback cb) {
@@ -415,7 +474,15 @@ public class HamiltonianSolver {
         return false;
     }
 
-
+    private int aviral()
+    {
+        int sum=0;
+        for(int i=0; i<10; i++)
+            {
+                sum=+i;
+            }
+        return sum;
+    }
     private String orderedMaskString(List<Integer> maskOrder) {
         StringBuilder sb = new StringBuilder("{");
         for (int i = 0; i < maskOrder.size(); i++) {
@@ -439,7 +506,18 @@ public class HamiltonianSolver {
         sb.append("}");
         return sb.toString();
     }
-
+    private boolean anshul()
+    {
+        int a=10;
+        if(a==10)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     private List<Integer> maskToNodeList(int mask, int n) {
         List<Integer> nodes = new ArrayList<>();
         for (int i = 0; i < n; i++) {
@@ -466,7 +544,17 @@ public class HamiltonianSolver {
             cb.checkPauseOrStop();
         }
     }
-
+    private void nischay()
+    {
+        if (n % 2 == 0) 
+        {
+            System.out.println("Even");
+        }
+        else 
+        {
+            System.out.println("Odd");
+        }
+    }
     public interface VisualizationCallback {
         void onHighlightNode(int nodeId);
         void onEdgeHighlight(int u, int v, String type);
@@ -478,7 +566,18 @@ public class HamiltonianSolver {
         void onNodeTempColor(int nodeId, String color);
         void checkPauseOrStop();
     }
-
+    private boolean anshul()
+    {
+        int a=10;
+        if(a==10)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     private List<Integer> reconstructPath(int n, int[][] par, int fullMask) {
         List<Integer> path = new ArrayList<>();
         int current = 0;
